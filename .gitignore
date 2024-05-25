@@ -6,3 +6,7 @@ node_modules
 
 # Mac OS
 .DS_Store
+
+# Actual Budget Downloads
+downloads/*
+!/downloads/README.md

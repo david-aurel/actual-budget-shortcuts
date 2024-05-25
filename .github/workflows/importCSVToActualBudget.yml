@@ -1,0 +1,55 @@
+name: Import CSV to Actual Budget
+
+on:
+  repository_dispatch:
+    types: [manual-trigger]
+
+jobs:
+  dependencies:
+    name: Install Dependencies
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+      - name: Cache node_modules
+        uses: actions/cache@v4
+        id: cache
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node20-modules-${{ hashFiles('**/package-lock.json') }}
+      - name: Create node_modules
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: npm ci
+
+  import-csv-to-actual-budget:
+    name: Send CSV to Actual Budget
+    needs: ['dependencies']
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Restore node_modules
+        uses: actions/cache@v4
+        id: cache
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node20-modules-${{ hashFiles('**/package-lock.json') }}
+
+      - name: Create CSV file from payload
+        id: create-csv
+        run: echo "${{ github.event.client_payload.csv_content }}" | base64 --decode > payload.csv
+
+      - name: Run import script
+        run: npm run import-csv-to-actual-budget payload.csv
+        env:
+          ACTUAL_BUDGET_SERVER_URL: ${{ secrets.ACTUAL_BUDGET_SERVER_URL}}
+          ACTUAL_BUDGET_SERVER_PASSWORD: ${{ secrets.ACTUAL_BUDGET_SERVER_PASSWORD}}
+          ACTUAL_BUDGET_SYNC_ID: ${{ secrets.ACTUAL_BUDGET_SYNC_ID}}
+          ACTUAL_BUDGET_ACCOUNT_ID: ${{ secrets.ACTUAL_BUDGET_ACCOUNT_ID}}
