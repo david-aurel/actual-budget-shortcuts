@@ -3,6 +3,23 @@ import { VercelRequest, VercelResponse } from '@vercel/node'
 import { getAccounts } from '../../src/actualBudget'
 import { env } from '../../src/env'
 
+import fs from 'fs'
+import path from 'path'
+
+const migrationsPath = path.resolve(
+  __dirname,
+  'node_modules/@actual-app/api/dist'
+)
+
+// Check if the path exists
+fs.readdir(migrationsPath, (err, files) => {
+  if (err) {
+    console.error('Error reading migrations directory:', err)
+  } else {
+    console.log('Migrations directory contents:', files)
+  }
+})
+
 export default async function (
   request: VercelRequest,
   response: VercelResponse
