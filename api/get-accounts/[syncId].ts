@@ -3,7 +3,7 @@ import { VercelRequest, VercelResponse } from '@vercel/node'
 import fs from 'fs'
 import path from 'path'
 
-const migrationsPath = path.resolve(__dirname, 'node_modules/@actual-app')
+const migrationsPath = path.resolve(__dirname, 'node_modules')
 
 export default async function (
   request: VercelRequest,
@@ -13,9 +13,9 @@ export default async function (
   console.log(request.url)
   fs.readdir(migrationsPath, (err, files) => {
     if (err) {
-      throw new Error('Error reading migrations directory:', err)
+      throw new Error(`Error reading ${migrationsPath} directoy :`, err)
     } else {
-      throw new Error(`Migrations directory contents: ${files}`)
+      throw new Error(`${migrationsPath} directory contents: ${files}`)
     }
   })
   // if (request.method !== 'GET') {
