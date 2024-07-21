@@ -1,8 +1,5 @@
 import { VercelRequest, VercelResponse } from '@vercel/node'
 
-import { getAccounts } from '../../src/actualBudget'
-import { env } from '../../src/env'
-
 import fs from 'fs'
 import path from 'path'
 
@@ -11,30 +8,29 @@ const migrationsPath = path.resolve(
   'node_modules/@actual-app/api/dist'
 )
 
-// Check if the path exists
-fs.readdir(migrationsPath, (err, files) => {
-  if (err) {
-    console.error('Error reading migrations directory:', err)
-  } else {
-    console.log('Migrations directory contents:', files)
-  }
-})
-
 export default async function (
   request: VercelRequest,
   response: VercelResponse
 ) {
-  if (request.method !== 'GET') {
-    return response.status(405).send('Method not allowed')
-  }
-  const authHeader = request.headers['authorization']
-  if (!authHeader || authHeader !== env.ACTUAL_BUDGET_SERVER_PASSWORD) {
-    return response.status(401).send('Unauthorized')
-  }
+  // Check if the path exists
+  fs.readdir(migrationsPath, (err, files) => {
+    if (err) {
+      console.error('Error reading migrations directory:', err)
+    } else {
+      console.log('Migrations directory contents:', files)
+    }
+  })
+  // if (request.method !== 'GET') {
+  //   return response.status(405).send('Method not allowed')
+  // }
+  // const authHeader = request.headers['authorization']
+  // if (!authHeader || authHeader !== env.ACTUAL_BUDGET_SERVER_PASSWORD) {
+  //   return response.status(401).send('Unauthorized')
+  // }
 
-  const syncId = request.query['syncId'] as string
+  // const syncId = request.query['syncId'] as string
 
-  const accounts = await getAccounts(syncId)()
+  // const accounts = await getAccounts(syncId)()
 
-  return response.setHeader('Content-Type', 'application/json').send(accounts)
+  return response.setHeader('Content-Type', 'application/json').send({})
 }
