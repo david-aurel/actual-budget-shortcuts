@@ -1,6 +1,6 @@
 import * as actualBudget from '@actual-app/api'
 import fs from 'fs'
-const dataDir = `./downloads`
+const dataDir = `./tmp/downloads`
 
 import { env } from './env'
 import { Transaction } from './zod/Transaction'
@@ -14,7 +14,7 @@ const withActualBudget =
     }
 
     await actualBudget.init({
-      dataDir: './tmp/downloads',
+      dataDir,
       serverURL: env.ACTUAL_BUDGET_SERVER_URL,
       password: env.ACTUAL_BUDGET_SERVER_PASSWORD,
     })
