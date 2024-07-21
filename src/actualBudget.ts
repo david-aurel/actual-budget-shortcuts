@@ -1,6 +1,6 @@
 import * as actualBudget from '@actual-app/api'
 import fs from 'fs'
-const dataDir = `./tmp/downloads`
+const dataDir = `/tmp/downloads`
 
 import { env } from './env'
 import { Transaction } from './zod/Transaction'
