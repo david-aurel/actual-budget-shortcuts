@@ -1,34 +1,43 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const actualBudget = require('@actual-app/api')
+import * as actualBudget from '@actual-app/api'
 import fs from 'fs'
 const dataDir = `./downloads`
 
 import { env } from './env'
 import { Transaction } from './zod/Transaction'
+import { NeonAccountsCodec } from './zod/Neon'
 
-const withActualBudget = async (callback: () => Promise<void>) => {
-  if (!fs.existsSync(dataDir)) {
-    fs.mkdirSync(dataDir)
+const withActualBudget =
+  (syncId: string) =>
+  async <T>(callback: () => Promise<T>): Promise<T> => {
+    if (!fs.existsSync(dataDir)) {
+      fs.mkdirSync(dataDir)
+    }
+
+    await actualBudget.init({
+      dataDir: './downloads',
+      serverURL: env.ACTUAL_BUDGET_SERVER_URL,
+      password: env.ACTUAL_BUDGET_SERVER_PASSWORD,
+    })
+
+    await actualBudget.downloadBudget(syncId)
+
+    const result = await callback()
+
+    await actualBudget.shutdown()
+
+    return result
   }
-  await actualBudget.init({
-    dataDir: './downloads',
-    serverURL: env.ACTUAL_BUDGET_SERVER_URL,
-    password: env.ACTUAL_BUDGET_SERVER_PASSWORD,
-  })
 
-  await actualBudget.downloadBudget(env.ACTUAL_BUDGET_SYNC_ID)
+export const sendTransactions =
+  (syncId: string) => (transactions: Transaction[]) =>
+    withActualBudget(syncId)(async () => {
+      await actualBudget.importTransactions(
+        env.ACTUAL_BUDGET_ACCOUNT_ID,
+        transactions
+      )
+    })
 
-  await callback()
-
-  await actualBudget.shutdown()
+export const getAccounts = (syncId: string) => async () => {
+  const result = await withActualBudget(syncId)(actualBudget.getAccounts)
+  return NeonAccountsCodec.parse(result)
 }
-
-export const sendTransactions = (transactions: Transaction[]) =>
-  withActualBudget(async () => {
-    await actualBudget.importTransactions(
-      env.ACTUAL_BUDGET_ACCOUNT_ID,
-      transactions
-    )
-  })
-
-export const getAccounts = () => withActualBudget(actualBudget.getAccounts)
