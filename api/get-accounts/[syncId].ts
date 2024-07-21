@@ -1,4 +1,4 @@
-import { VercelResponse } from '@vercel/node'
+import { VercelRequest, VercelResponse } from '@vercel/node'
 
 import fs from 'fs'
 import path from 'path'
@@ -9,10 +9,11 @@ const migrationsPath = path.resolve(
 )
 
 export default async function (
-  // request: VercelRequest,
+  request: VercelRequest,
   response: VercelResponse
 ) {
   // Check if the path exists
+  console.log(request.url)
   fs.readdir(migrationsPath, (err, files) => {
     if (err) {
       console.error('Error reading migrations directory:', err)
