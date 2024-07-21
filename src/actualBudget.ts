@@ -10,7 +10,7 @@ const withActualBudget =
   (syncId: string) =>
   async <T>(callback: () => Promise<T>): Promise<T> => {
     if (!fs.existsSync(dataDir)) {
-      fs.mkdirSync(dataDir)
+      fs.mkdirSync(dataDir, { recursive: true })
     }
 
     await actualBudget.init({

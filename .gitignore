@@ -8,8 +8,7 @@ node_modules
 .DS_Store
 
 # Actual Budget Downloads
-downloads/*
-!tmp/downloads
+tmp/downloads/*
 
 # vercel
 .vercel
