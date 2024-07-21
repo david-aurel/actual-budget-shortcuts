@@ -3,10 +3,7 @@ import { VercelRequest, VercelResponse } from '@vercel/node'
 import fs from 'fs'
 import path from 'path'
 
-const migrationsPath = path.resolve(
-  __dirname,
-  'node_modules/@actual-app/api/dist'
-)
+const migrationsPath = path.resolve(__dirname, 'node_modules/@actual-app')
 
 export default async function (
   request: VercelRequest,
