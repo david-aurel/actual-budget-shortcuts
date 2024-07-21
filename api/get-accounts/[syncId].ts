@@ -16,9 +16,9 @@ export default async function (
   console.log(request.url)
   fs.readdir(migrationsPath, (err, files) => {
     if (err) {
-      console.error('Error reading migrations directory:', err)
+      throw new Error('Error reading migrations directory:', err)
     } else {
-      console.log('Migrations directory contents:', files)
+      throw new Error(`Migrations directory contents: ${files}`)
     }
   })
   // if (request.method !== 'GET') {
