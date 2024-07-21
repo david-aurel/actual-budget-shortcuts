@@ -9,7 +9,7 @@ node_modules
 
 # Actual Budget Downloads
 downloads/*
-!/downloads/README.md
+!tmp/downloads
 
 # vercel
 .vercel

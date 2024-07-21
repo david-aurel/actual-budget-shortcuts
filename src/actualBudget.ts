@@ -14,7 +14,7 @@ const withActualBudget =
     }
 
     await actualBudget.init({
-      dataDir: './downloads',
+      dataDir: './tmp/downloads',
       serverURL: env.ACTUAL_BUDGET_SERVER_URL,
       password: env.ACTUAL_BUDGET_SERVER_PASSWORD,
     })
