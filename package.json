@@ -7,8 +7,7 @@
     "build": "rm -rf build && tsc",
     "ts:check": "tsc --noEmit",
     "eslint:check": "eslint --max-warnings=0 src",
-    "prettier:check": "prettier -c .",
-    "import-csv-to-actual-budget": "ts-node src/index.ts"
+    "prettier:check": "prettier -c ."
   },
   "author": "david-aurel",
   "license": "ISC",
@@ -16,17 +15,16 @@
     "@types/node": "^20.12.12",
     "@typescript-eslint/eslint-plugin": "^7.10.0",
     "@typescript-eslint/parser": "^7.10.0",
-    "@vercel/node": "^3.2.7",
     "eslint": "^8.56.0",
     "prettier": "^3.2.5",
     "typescript": "^5.4.5"
   },
   "dependencies": {
     "@actual-app/api": "^6.8.2",
+    "@oakserver/oak": "^14.1.0",
     "csvtojson": "^2.0.10",
     "dotenv": "^16.4.5",
     "envalid": "^8.0.0",
-    "ts-node": "^10.9.2",
     "zod": "^3.23.8"
   }
 }

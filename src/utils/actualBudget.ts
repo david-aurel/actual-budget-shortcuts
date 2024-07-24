@@ -39,6 +39,5 @@ export const sendTransactions =
 
 export const getAccounts = (syncId: string) => async () => {
   const result = await withActualBudget(syncId)(actualBudget.getAccounts)
-
   return NeonAccountsCodec.parse(result)
 }
