@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+  actual-budget-shortcuts:
+    image: actual-budget-shortcuts
+    build: .
+    ports:
+      - '8000:8000'
+    env_file:
+      - .env

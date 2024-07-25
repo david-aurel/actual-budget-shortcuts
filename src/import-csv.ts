@@ -10,17 +10,16 @@ const bodyCodec = z.object({
   base64Csv: z.string(),
   accountId: z.string(),
 })
-const csvHeader = /Account Statements (\d+_\d+|\d+)/g
 
 export const importCsv: RouterMiddleware<'/:syncId/import-csv'> = async (
   context
 ) => {
   const body = await context.request.body.json()
-  const { base64Csv, accountId } = bodyCodec.parse(body)
+  const { accountId, base64Csv } = bodyCodec.parse(body)
+
   const { syncId } = context.params
 
-  const rawCsvData = atob(base64Csv)
-  const csvData = rawCsvData.replace(csvHeader, '') // Remove prefix of "Account Statements 2024_5" etc.
+  const csvData = Buffer.from(base64Csv, 'base64').toString()
   const rows = await csv({ delimiter: ';', quote: `"` }).fromString(csvData)
   const data = NeonExportCodec.parse(rows)
 
@@ -37,7 +36,7 @@ export const importCsv: RouterMiddleware<'/:syncId/import-csv'> = async (
       }
     }
   )
-  await sendTransactions(syncId)(transactions)
+  await sendTransactions(syncId)({ accountId, transactions })
 
   context.response.body = { message: 'Success' }
 }

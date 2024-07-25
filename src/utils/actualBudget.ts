@@ -29,12 +29,10 @@ const withActualBudget =
   }
 
 export const sendTransactions =
-  (syncId: string) => (transactions: Transaction[]) =>
+  (syncId: string) =>
+  (data: { transactions: Transaction[]; accountId: string }) =>
     withActualBudget(syncId)(async () => {
-      await actualBudget.importTransactions(
-        env.ACTUAL_BUDGET_ACCOUNT_ID,
-        transactions
-      )
+      await actualBudget.importTransactions(data.accountId, data.transactions)
     })
 
 export const getAccounts = (syncId: string) => async () => {

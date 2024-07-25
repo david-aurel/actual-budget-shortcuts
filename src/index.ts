@@ -14,4 +14,4 @@ app.use(auth)
 app.use(router.routes())
 app.use(router.allowedMethods())
 
-app.listen({ port: 8000 })
+app.listen({ port: 8000, hostname: '0.0.0.0' })

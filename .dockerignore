@@ -1,0 +1,17 @@
+# env
+*.env
+
+# npm
+node_modules
+
+# Mac OS
+.DS_Store
+
+# Actual Budget Downloads
+tmp/downloads/*
+
+# vercel
+.vercel
+
+# build
+build

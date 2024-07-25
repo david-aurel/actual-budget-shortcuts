@@ -1,10 +1,10 @@
 {
-  "name": "csv-to-actual-budget",
+  "name": "actual-budget-shortcuts",
   "version": "1.0.0",
-  "description": "Import a CSV file into Actual Budget through a Github Action",
+  "description": "A Node.js web server for managing Actual Budget transactions. Provides endpoints for importing CSV transactions, adding transactions, and retrieving account IDs by communicating with an Actual Budget app.",
   "source": "src/index.ts",
   "scripts": {
-    "build": "rm -rf build && tsc",
+    "build": "rm -rf build && tsc --p tsconfig.build.json",
     "ts:check": "tsc --noEmit",
     "eslint:check": "eslint --max-warnings=0 src",
     "prettier:check": "prettier -c ."
