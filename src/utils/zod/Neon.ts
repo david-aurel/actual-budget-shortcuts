@@ -4,11 +4,11 @@ export const NeonExportCodec = z.array(
   z.object({
     Date: z.string().date(),
     Amount: z.string().transform(Number),
-    Description: z.string().nullish(),
+    Description: z.string().optional(),
     Category: z
       .string()
-      .nullish()
-      .transform((_) => (_ === 'uncategorized' ? null : _)),
+      .optional()
+      .transform((_) => (_ === 'uncategorized' ? undefined : _)),
   })
 )
 

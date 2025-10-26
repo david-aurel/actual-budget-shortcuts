@@ -1,24 +1,25 @@
 import { z } from 'zod'
 
+
 const BaseTransaction = z.object({
-  id: z.string().nullish(),
+  id: z.string().optional(),
   account: z.string(),
   date: z.string(),
-  amount: z.number().nullish(),
-  payee: z.string().nullish(),
-  payee_name: z.string().nullish(),
-  imported_payee: z.string().nullish(),
-  category: z.string().nullish(),
-  notes: z.string().nullish(),
-  imported_id: z.string().nullish(),
-  transfer_id: z.string().nullish(),
-  cleared: z.boolean().nullish(),
+  amount: z.number(),
+  payee: z.string().optional(),
+  payee_name: z.string().optional(),
+  imported_payee: z.string().optional(),
+  category: z.string().optional(),
+  notes: z.string().optional(),
+  imported_id: z.string().optional(),
+  transfer_id: z.string().optional(),
+  cleared: z.boolean().optional(),
 })
 
 export type Transaction = z.infer<typeof BaseTransaction> & {
-  subtransactions?: Transaction[] | null
+  subtransactions?: Transaction[]
 }
 
 export const Transaction: z.ZodType<Transaction> = BaseTransaction.extend({
-  subtransactions: z.lazy(() => Transaction.array()).nullable(),
+  subtransactions: z.lazy(() => Transaction.array()).optional(),
 })
