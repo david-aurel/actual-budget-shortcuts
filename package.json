@@ -1,7 +1,6 @@
 {
   "name": "actual-budget-shortcuts",
   "version": "1.0.0",
-  "type": "module",
   "description": "A Node.js web server for managing Actual Budget transactions. Provides endpoints for importing CSV transactions, adding transactions, and retrieving account IDs by communicating with an Actual Budget app.",
   "source": "src/index.ts",
   "scripts": {
