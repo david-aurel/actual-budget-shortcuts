@@ -3,6 +3,7 @@
     "target": "ES2022",
     "module": "CommonJS",
     "moduleResolution": "Node",
+    "ignoreDeprecations": "6.0",
     "resolveJsonModule": true,
     "outDir": "build",
     "esModuleInterop": true,
@@ -26,5 +27,6 @@
     "typeRoots": ["node_modules/@types"],
     "skipLibCheck": true
   },
-  "exclude": ["node_modules", "build"]
+  "exclude": ["node_modules", "build", "src/polyfills.js"],
+  "include": ["src/**/*"]
 }

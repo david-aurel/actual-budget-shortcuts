@@ -1,8 +1,5 @@
 import { z } from 'zod'
-import csv from 'csvtojson'
-import { NeonExportCodec } from './utils/zod/Neon'
-import { Transaction } from './utils/zod/Transaction'
-import { utils } from '@actual-app/api'
+import { parseCsvToTransactions } from './utils/parseCsv'
 import { sendTransactions } from './utils/actualBudget'
 import { RouterMiddleware } from '@oakserver/oak'
 
@@ -21,22 +18,8 @@ export const importCsv: RouterMiddleware<'/:syncId/import-csv'> = async (
     const { syncId } = context.params
 
     const csvData = Buffer.from(base64Csv, 'base64').toString()
-    const rows = await csv({ delimiter: ';', quote: `"` }).fromString(csvData)
-    const data = NeonExportCodec.parse(rows)
+    const transactions = await parseCsvToTransactions(csvData, accountId)
 
-    const transactions: Transaction[] = data.map(
-      ({ Date, Amount, Category, Description }) => {
-        return {
-          account: accountId,
-          date: Date,
-          amount: utils.amountToInteger(Amount),
-          payee_name: Description,
-          notes: Description,
-          category: Category,
-          cleared: true,
-        }
-      }
-    )
     await sendTransactions(syncId)({ accountId, transactions })
 
     context.response.body = { message: 'Success' }

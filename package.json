@@ -14,17 +14,19 @@
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^25.6.0",
+    "@types/node-cron": "^3.0.11",
     "eslint": "^10.3.0",
     "prettier": "^3.8.3",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.59.2"
   },
   "dependencies": {
-    "@actual-app/api": "^26.5.0",
+    "@actual-app/api": "^26.8.1",
     "@oakserver/oak": "^14.1.0",
     "csvtojson": "^2.0.14",
     "dotenv": "^17.4.2",
     "envalid": "^8.1.1",
+    "node-cron": "^4.6.0",
     "zod": "^4.4.3"
   }
 }

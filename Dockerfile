@@ -1,10 +1,6 @@
-# syntax = docker/dockerfile:1
-
 # Adjust NODE_VERSION as desired
 ARG NODE_VERSION=20.10.0
 FROM node:${NODE_VERSION}-slim as base
-
-LABEL fly_launch_runtime="Node.js"
 
 # Node.js app lives here
 WORKDIR /app
@@ -21,11 +17,11 @@ RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y build-essential node-gyp pkg-config python-is-python3
 
 # Install node modules
-COPY --link package-lock.json package.json ./
+COPY package-lock.json package.json ./
 RUN npm ci --include=dev
 
 # Copy application code
-COPY --link . .
+COPY . .
 
 # Build application
 RUN npm run build
@@ -38,11 +34,12 @@ RUN npm prune --omit=dev
 FROM base
 
 # Copy built application
-COPY --from=build /app/build/src /app/src
+COPY --from=build /app/build /app/src
+COPY --from=build /app/src/polyfills.js /app/src/polyfills.js
 COPY --from=build /app/node_modules /app/node_modules
 COPY --from=build /app/package.json /app/package.json
 
 # Start the server by default, this can be overwritten at runtime
 EXPOSE 8000
-CMD [ "node", "src/index.js" ]
+CMD [ "node", "--require", "./src/polyfills.js", "src/index.js" ]
 
