@@ -1,4 +1,7 @@
 {
   "extends": "./tsconfig.json",
-  "exclude": ["jest.config.js"]
+  "compilerOptions": {
+    "rootDir": "./src"
+  },
+  "exclude": ["jest.config.js", "src/polyfills.js"]
 }
