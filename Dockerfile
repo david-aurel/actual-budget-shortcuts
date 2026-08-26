@@ -2,8 +2,6 @@
 ARG NODE_VERSION=20.10.0
 FROM node:${NODE_VERSION}-slim as base
 
-LABEL fly_launch_runtime="Node.js"
-
 # Node.js app lives here
 WORKDIR /app
 
