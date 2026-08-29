@@ -10,12 +10,13 @@ export async function parseCsvToTransactions(
   const rows = await csv({ delimiter: ';', quote: `"` }).fromString(csvData)
   const data = NeonExportCodec.parse(rows)
 
-  return data.map(({ Date, Amount, Description }) => ({
+  return data.map(({ Date, Amount, Description, Subject }) => ({
     account: accountId,
     date: Date,
     amount: utils.amountToInteger(Amount),
+    payee_name: Description,
     imported_payee: Description,
-    notes: Description,
+    ...(Subject && Subject !== Description ? { notes: Subject } : {}),
     cleared: true,
   }))
 }

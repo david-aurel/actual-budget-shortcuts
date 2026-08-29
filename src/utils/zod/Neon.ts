@@ -5,6 +5,7 @@ export const NeonExportCodec = z.array(
     Date: z.string().date(),
     Amount: z.string().transform(Number),
     Description: z.string().optional(),
+    Subject: z.string().optional(),
     Category: z
       .string()
       .optional()
