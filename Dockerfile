@@ -1,5 +1,5 @@
 # Adjust NODE_VERSION as desired
-ARG NODE_VERSION=20.10.0
+ARG NODE_VERSION=24
 FROM node:${NODE_VERSION}-slim as base
 
 # Node.js app lives here
